@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from entries import get_all_entries, get_single_entry
 # add import statements from moods and entries here
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -36,11 +37,19 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         (resource, id) = self.parse_url(self.path)
 
-        if resouce == "entries":
+        if resource == "entries":
             if id is not None:
                 response = f"{get_single_entry(id)}"
             
             else:
-                response = f"{get_all_entries}"
+                response = f"{get_all_entries()}"
         
         self.wfile.write(f"{response}".encode())
+
+def main():
+    host = ''
+    port = 8088
+    HTTPServer((host, port), HandleRequests).serve_forever()
+
+if __name__ == "__main__":
+    main()

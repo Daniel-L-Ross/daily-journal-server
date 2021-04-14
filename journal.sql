@@ -1,26 +1,26 @@
-CREATE TABLE `Entries` (
+CREATE TABLE `Entry` (
     `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     `date` VARCHAR NOT NULL,
     `concept` TEXT NOT NULL, 
     `entry` TEXT NOT NULL, 
     `mood_id` INTEGER NOT NULL,
-    FOREIGN KEY(`mood_id`) REFERENCES `Moods`(`id`)
+    FOREIGN KEY(`mood_id`) REFERENCES `Mood`(`id`)
 );
 
-CREATE TABLE `Moods` (
+CREATE TABLE `Mood` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`label`	TEXT NOT NULL
 );
 
-INSERT INTO `Moods` VALUES (null, "Happy");
-INSERT INTO `Moods` VALUES (null, "Excited");
-INSERT INTO `Moods` VALUES (null, "Calm");
-INSERT INTO `Moods` VALUES (null, "Content");
-INSERT INTO `Moods` VALUES (null, "Relaxed");
-INSERT INTO `Moods` VALUES (null, "Sad");
-INSERT INTO `Moods` VALUES (null, "Nervous");
-INSERT INTO `Moods` VALUES (null, "Upset");
-INSERT INTO `Moods` VALUES (null, "Tense");
-INSERT INTO `Moods` VALUES (null, "Whelmed");
+INSERT INTO `Mood` VALUES (null, "Happy");
+INSERT INTO `Mood` VALUES (null, "Excited");
+INSERT INTO `Mood` VALUES (null, "Calm");
+INSERT INTO `Mood` VALUES (null, "Content");
+INSERT INTO `Mood` VALUES (null, "Relaxed");
+INSERT INTO `Mood` VALUES (null, "Sad");
+INSERT INTO `Mood` VALUES (null, "Nervous");
+INSERT INTO `Mood` VALUES (null, "Upset");
+INSERT INTO `Mood` VALUES (null, "Tense");
+INSERT INTO `Mood` VALUES (null, "Whelmed");
 
-SELECT * FROM Moods;
+INSERT INTO 'Entry' VALUES (null, "04-14-2021", "SQL", "Testing SQL insert", 7);
