@@ -23,4 +23,4 @@ INSERT INTO `Mood` VALUES (null, "Upset");
 INSERT INTO `Mood` VALUES (null, "Tense");
 INSERT INTO `Mood` VALUES (null, "Whelmed");
 
-INSERT INTO 'Entry' VALUES (null, "04-14-2021", "SQL", "Testing SQL insert", 7);
+INSERT INTO 'Entry' VALUES (null, "04-12-2021", "PYTHON!", "Testing single entry query", 1);
