@@ -42,3 +42,5 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             else:
                 response = f"{get_all_entries}"
+        
+        self.wfile.write(f"{response}".encode())
