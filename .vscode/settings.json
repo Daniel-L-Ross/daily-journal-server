@@ -6,5 +6,6 @@
             "name": "Python Daily Journal",
             "database": "journal.db"
         }
-    ]
+    ],
+    "python.pythonPath": "/Users/danielross/.local/share/virtualenvs/daily-journal-server-cGRieD0x/bin/python"
 }
