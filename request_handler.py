@@ -8,16 +8,29 @@ class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
         path_params = path.split("/")
         resource = path_params[1]
-        id = None
 
-        try:
-            id = int(path_params[2])
-        except IndexError:
-            pass
-        except ValueError:
-            pass
+        if "?" in resource:
+            # GIVEN: /entries?q=search_term
 
-        return (resource, id)
+            param = resource.split("?")[1] # q=search_term
+            resource = resource.split("?")[0] # 'entries
+            pair = param.split("=") # [ 'q', 'search_term' ]
+            key = pair[0] # 'q'
+            value = pair[1] # 'search_term'
+
+            return ( resource, key, value )
+
+        else:
+            id = None
+
+            try:
+                id = int(path_params[2])
+            except IndexError:
+                pass  
+            except ValueError:
+                pass  
+
+            return (resource, id)  
 
     def _set_headers(self, status):
         self.send_response(status)
