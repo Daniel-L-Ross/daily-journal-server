@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from entries import get_all_entries, get_single_entry, delete_entry
+from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search
 import entries
 # add import statements from moods and entries here
 
@@ -49,15 +49,23 @@ class HandleRequests(BaseHTTPRequestHandler):
         self._set_headers(200)
         response = {}
 
-        (resource, id) = self.parse_url(self.path)
+        parsed = self.parse_url(self.path)
 
-        if resource == "entries":
-            if id is not None:
-                response = f"{get_single_entry(id)}"
-            
-            else:
-                response = f"{get_all_entries()}"
+        if len(parsed) == 2:
+            (resource, id) = parsed
+
+            if resource == "entries":
+                if id is not None:
+                    response = f"{get_single_entry(id)}"
+                else:
+                    response = f"{get_all_entries()}"
         
+        elif len(parsed) ==3:
+            ( resource, key, value ) = parsed
+
+            if key == "q" and resource == "entries":
+                response = get_entries_by_search(value)
+
         self.wfile.write(f"{response}".encode())
 
     def do_DELETE(self):
