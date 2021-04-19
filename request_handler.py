@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from moods import get_all_moods
+from moods import get_all_moods, get_mood_by_id
 from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -61,7 +61,7 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             if resource == "moods":
                 if id is not None:
-                    response = get_all_moods()
+                    response = get_mood_by_id(id)
                 else:
                     response = get_all_moods()
         
