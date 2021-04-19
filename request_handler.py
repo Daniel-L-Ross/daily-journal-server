@@ -1,8 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from moods import get_all_moods
 from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search
-import entries
-# add import statements from moods and entries here
 
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -59,6 +58,12 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_entry(id)}"
                 else:
                     response = f"{get_all_entries()}"
+            
+            if resource == "moods":
+                if id is not None:
+                    response = get_all_moods()
+                else:
+                    response = get_all_moods()
         
         elif len(parsed) ==3:
             ( resource, key, value ) = parsed
