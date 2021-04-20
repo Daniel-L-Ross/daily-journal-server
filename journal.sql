@@ -12,6 +12,19 @@ CREATE TABLE `Mood` (
 	`label`	TEXT NOT NULL
 );
 
+CREATE TABLE `Tag` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	TEXT NOT NULL
+);
+
+CREATE TABLE `entry_tag` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`tag_id`    INTEGER NOT NULL,
+    `entry_id`  INTEGER NOT NULL,
+    FOREIGN KEY(`tag_id`) REFERENCES `Tag`(`id`)
+    FOREIGN KEY(`entry_id`) REFERENCES `Entry`(`id`)
+);
+
 INSERT INTO `Mood` VALUES (null, "Happy");
 INSERT INTO `Mood` VALUES (null, "Excited");
 INSERT INTO `Mood` VALUES (null, "Calm");
@@ -26,3 +39,9 @@ INSERT INTO `Mood` VALUES (null, "Whelmed");
 INSERT INTO 'Entry' VALUES (null, "04-13-2021", "Search Terms are for nerds!", "word term animal entry mood search", 4);
 
 SELECT * FROM 'Entry'
+
+INSERT INTO 'Tag' VALUES(null, "Soft-skills")
+
+SELECT * FROM 'Tag'
+
+INSERT INTO 'Entry_tag' VALUES(null, 1, 1)
