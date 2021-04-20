@@ -47,3 +47,27 @@ SELECT * FROM 'Tag'
 INSERT INTO 'Entry_tag' VALUES(null, 1, 1)
 
 SELECT * FROM 'Entry_tag'
+
+SELECT
+    e.id,
+    e.date,
+    e.concept,
+    e.entry,
+    e.mood_id, 
+    m.label,
+    t.name
+FROM entry e
+JOIN mood m
+    ON m.id = e.mood_id
+JOIN entry_tag et
+    ON et.entry_id = e.id
+JOIN tag t
+    ON t.id = et.tag_id
+
+SELECT
+    et.id,
+    et.tag_id,
+    et.entry_id
+FROM entry_tag et
+    WHERE et.entry_id = 5
+    

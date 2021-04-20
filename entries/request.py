@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from models import Entry, Mood
+from tags import get_single_tag
 
 def get_all_entries():
     with sqlite3.connect("./journal.db") as conn:
@@ -15,7 +16,8 @@ def get_all_entries():
             e.concept,
             e.entry,
             e.mood_id, 
-            m.label
+            m.label,
+            t.name
         FROM entry e
         JOIN mood m
             ON m.id = e.mood_id
