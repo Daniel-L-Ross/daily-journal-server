@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from moods import get_all_moods, get_mood_by_id
-from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry
+from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry, update_entry
 
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -88,6 +88,28 @@ class HandleRequests(BaseHTTPRequestHandler):
             new_item = create_entry(post_body)
 
         self.wfile.write(f"{new_item}".encode())
+
+    def do_PUT(self):
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        # Delete a single animal from the list
+        if resource == "entries":
+            success = update_entry(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+            
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         self._set_headers(204)

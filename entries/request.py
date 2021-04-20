@@ -47,8 +47,7 @@ def get_single_entry(id):
             e.date,
             e.concept,
             e.entry,
-            e.mood_id,
-
+            e.mood_id
         FROM entry e
         WHERE e.id = ?
         """, ( id, ))
@@ -105,6 +104,28 @@ def create_entry(new_entry):
         new_entry['id'] = id
 
     return json.dumps(new_entry)
+
+def update_entry(id, entry):
+    with sqlite3.connect("./journal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Entry
+            SET
+                date = ?,
+                concept = ?,
+                entry = ?,
+                mood_id = ?
+        WHERE id = ?
+            """, (entry['date'], entry['concept'],
+                entry['entry'], entry['mood_id'], id, ))
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        return False
+    else:
+        return True
 
 def delete_entry(id):
     with sqlite3.connect("./journal.db") as conn:
