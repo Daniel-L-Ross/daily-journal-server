@@ -24,3 +24,5 @@ INSERT INTO `Mood` VALUES (null, "Tense");
 INSERT INTO `Mood` VALUES (null, "Whelmed");
 
 INSERT INTO 'Entry' VALUES (null, "04-13-2021", "Search Terms are for nerds!", "word term animal entry mood search", 4);
+
+SELECT * FROM 'Entry'

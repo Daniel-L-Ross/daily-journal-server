@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Entry
+from models import Entry, Mood
 
 def get_all_entries():
     with sqlite3.connect("./journal.db") as conn:
@@ -14,8 +14,11 @@ def get_all_entries():
             e.date,
             e.concept,
             e.entry,
-            e.mood_id
+            e.mood_id, 
+            m.label
         FROM entry e
+        JOIN mood m
+            ON m.id = e.mood_id
         """)
 
         entries = []
@@ -25,6 +28,9 @@ def get_all_entries():
         for row in dataset:
             entry = Entry(row['id'], row['date'], row['concept'],
                             row['entry'], row['mood_id'])
+
+            mood = Mood(row['mood_id'], row['label'])
+            entry.mood = mood.__dict__
 
             entries.append(entry.__dict__)
 
@@ -80,6 +86,46 @@ def get_entries_by_search(search_term):
             entries.append(entry.__dict__)
 
     return json.dumps(entries)
+
+def create_entry(new_entry):
+    with sqlite3.connect("./journal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Entry
+            (date, concept, entry, mood_id)
+        VALUES
+            (?, ?, ?, ?);
+        """, (new_entry['date'], new_entry['concept'],
+            new_entry['entry'], new_entry['mood_id']))
+
+        id = db_cursor.lastrowid
+
+        new_entry['id'] = id
+
+    return json.dumps(new_entry)
+
+def update_entry(id, entry):
+    with sqlite3.connect("./journal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Entry
+            SET
+                date = ?,
+                concept = ?,
+                entry = ?,
+                mood_id = ?
+        WHERE id = ?
+            """, (entry['date'], entry['concept'],
+                entry['entry'], entry['mood_id'], id, ))
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        return False
+    else:
+        return True
 
 def delete_entry(id):
     with sqlite3.connect("./journal.db") as conn:
