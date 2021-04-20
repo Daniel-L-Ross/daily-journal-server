@@ -2,6 +2,7 @@ import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from moods import get_all_moods, get_mood_by_id
 from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry, update_entry
+from tags import get_all_tags
 
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -59,11 +60,14 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = f"{get_all_entries()}"
             
-            if resource == "moods":
+            elif resource == "moods":
                 if id is not None:
                     response = get_mood_by_id(id)
                 else:
                     response = get_all_moods()
+            
+            elif resource == "tags":
+                response = get_all_tags()
         
         elif len(parsed) ==3:
             ( resource, key, value ) = parsed
