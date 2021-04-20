@@ -44,7 +44,7 @@ INSERT INTO 'Tag' VALUES(null, "Soft-skills")
 
 SELECT * FROM 'Tag'
 
-INSERT INTO 'Entry_tag' VALUES(null, 1, 1)
+INSERT INTO 'Entry_tag' VALUES(null, 1, 4)
 
 SELECT * FROM 'Entry_tag'
 
@@ -71,3 +71,26 @@ SELECT
 FROM entry_tag et
     WHERE et.entry_id = 5
     
+
+
+SELECT 
+    et.id,
+    et.entry_id,
+    et.tag_id,
+    t.id,
+    t.name
+FROM entry_tag et
+JOIN tag t
+    ON t.id = et.tag_id
+WHERE et.entry_id = 5
+
+SELECT 
+    et.id,
+    et.entry_id,
+    et.tag_id,
+    t.name
+FROM entry_tag et
+JOIN tag t
+    ON t.id = et.tag_id
+WHERE et.entry_id = 2
+
