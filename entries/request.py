@@ -103,6 +103,14 @@ def create_entry(new_entry):
 
         new_entry['id'] = id
 
+        for tag in new_entry['tag']:
+            db_cursor.execute("""
+            INSERT INTO Entry_tag
+                (entry_id, tag_id)
+            VALUES
+                (?, ?)
+            """, ( id, tag ))
+
     return json.dumps(new_entry)
 
 def update_entry(id, entry):

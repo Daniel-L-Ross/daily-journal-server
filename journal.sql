@@ -45,3 +45,5 @@ INSERT INTO 'Tag' VALUES(null, "Soft-skills")
 SELECT * FROM 'Tag'
 
 INSERT INTO 'Entry_tag' VALUES(null, 1, 1)
+
+SELECT * FROM 'Entry_tag'
