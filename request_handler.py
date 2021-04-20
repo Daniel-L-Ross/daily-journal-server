@@ -1,7 +1,7 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from moods import get_all_moods, get_mood_by_id
-from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search
+from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry
 
 class HandleRequests(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -72,6 +72,22 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = get_entries_by_search(value)
 
         self.wfile.write(f"{response}".encode())
+
+    def do_POST(self):
+        self._set_headers(201)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        new_item = None
+
+        if resource == "entries":
+            new_item = create_entry(post_body)
+
+        self.wfile.write(f"{new_item}".encode())
 
     def do_DELETE(self):
         self._set_headers(204)
