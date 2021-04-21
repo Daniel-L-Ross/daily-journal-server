@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from models import Entry, Mood
+from entry_tags import get_entry_tags_by_entry
 
 def get_all_entries():
     with sqlite3.connect("./journal.db") as conn:
@@ -31,6 +32,7 @@ def get_all_entries():
 
             mood = Mood(row['mood_id'], row['label'])
             entry.mood = mood.__dict__
+            entry.tags = get_entry_tags_by_entry(row['id'])
 
             entries.append(entry.__dict__)
 
@@ -102,6 +104,14 @@ def create_entry(new_entry):
         id = db_cursor.lastrowid
 
         new_entry['id'] = id
+
+        for tag in new_entry['tag']:
+            db_cursor.execute("""
+            INSERT INTO Entry_tag
+                (entry_id, tag_id)
+            VALUES
+                (?, ?)
+            """, ( id, tag ))
 
     return json.dumps(new_entry)
 
